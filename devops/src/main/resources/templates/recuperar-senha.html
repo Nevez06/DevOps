@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - Sistema DevOps</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="auth-page">
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Sistema DevOps</div>
+            <ul class="nav-links">
+                <li><a href="/login">Login</a></li>
+                <li><a href="/home">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="auth-hero compact">
+        <div class="auth-copy">
+            <span class="eyebrow">Recuperação de acesso</span>
+            <h1>Redefina sua senha</h1>
+            <p>Informe o email cadastrado. O sistema enviará um link seguro com validade de 30 minutos.</p>
+        </div>
+    </section>
+
+    <div class="container auth-container">
+        <div class="form-container auth-card">
+            <form th:action="@{/recuperar-senha}" method="post">
+                <h2 class="form-title">Recuperar senha</h2>
+
+                <div class="alerta" th:if="${mensagem}">
+                    <p th:text="${mensagem}"></p>
+                </div>
+
+                <div class="alerta alerta-erro" th:if="${erro}">
+                    <p th:text="${erro}"></p>
+                </div>
+
+                <div class="dev-link" th:if="${linkDev}">
+                    <strong>Modo desenvolvimento:</strong> SMTP não configurado. Use este link para testar:
+                    <a th:href="${linkDev}" th:text="${linkDev}"></a>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email cadastrado:</label>
+                    <input type="email" id="email" name="email" placeholder="exemplo@email.com" required autofocus>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enviar link</button>
+                    <a href="/login" class="btn btn-secondary">Voltar ao login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
