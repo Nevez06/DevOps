@@ -29,6 +29,10 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public Optional<Usuario> buscarPorLogin(String login) {
+        return usuarioRepository.findByLoginUsuario(login);
+    }
+
     public Usuario salvar(Usuario usuario) {
         usuario.setSenhaUsuario(passwordEncoder.encode(usuario.getSenhaUsuario()));
         return usuarioRepository.save(usuario);

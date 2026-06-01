@@ -1,94 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário Professor</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <nav>
-        <div class="nav-container">
-            <div class="logo"> Sistema DevOps</div>
-            <ul class="nav-links">
-                <li><a href="/">Início</a></li>
-                <li><a href="/aluno/listar">Alunos</a></li>
-                <li><a href="/curso/listar">Cursos</a></li>
-                <li><a href="/professor/listar">Professores</a></li>
-                <li><a href="/disciplina/listar">Disciplinas</a></li>
-            </ul>
-        </div>
-    </nav>
+<head th:replace="~{fragments/layout :: head('Formulário de professor')}"></head>
+<body class="app-body">
+    <div class="app-shell">
+        <aside th:replace="~{fragments/layout :: appSidebar('professor')}"></aside>
 
-    <div class="page-header">
-        <h1 th:if="${professor.idProfessor == null}">Novo Professor</h1>
-        <h1 th:unless="${professor.idProfessor == null}">Editar Professor</h1>
-        <p>Preencha os dados do professor</p>
-    </div>
+        <div class="main-area">
+            <header th:replace="~{fragments/layout :: appTopbar('professor')}"></header>
 
-    <div class="container">
-        <div class="form-container">
-            <form th:if="${professor.idProfessor == null}" th:action="@{/professor/salvar}" method="post">
-                <h2 class="form-title">Cadastro de Professor</h2>
+            <main class="page-wrap">
+                <section class="hero">
+                    <div>
+                        <h1 th:text="${professor.idProfessor == null ? 'Novo professor' : 'Editar professor'}">Professor</h1>
+                        <p>Preencha os dados para cadastro ou edição.</p>
+                    </div>
+                </section>
 
-                <div class="form-group">
-                    <label for="nomeProfessor">Nome Completo:</label>
-                    <input type="text" id="nomeProfessor" name="nomeProfessor" th:value="${professor.nomeProfessor}" placeholder="Digite o nome completo" required>
-                </div>
+                <section class="form-card">
+                    <form th:if="${professor.idProfessor == null}" th:action="@{/professor/salvar}" method="post">
+                        <h2 class="form-title">Cadastro de professor</h2>
+                        <div class="form-grid">
+                            <div class="form-group form-span-2">
+                                <label for="nomeProfessor">Nome completo</label>
+                                <input type="text" id="nomeProfessor" name="nomeProfessor" th:value="${professor.nomeProfessor}" placeholder="Digite o nome completo" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="telefoneProfessor">Telefone:</label>
-                    <input type="text" id="telefoneProfessor" name="telefoneProfessor" th:value="${professor.telefoneProfessor}" placeholder="(00) 9 0000-0000" data-mask="phone" required>
-                </div>
+                            <div class="form-group">
+                                <label for="telefoneProfessor">Telefone</label>
+                                <input type="text" id="telefoneProfessor" name="telefoneProfessor" th:value="${professor.telefoneProfessor}" placeholder="(00) 90000-0000" data-mask="phone" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="graduacaoProfessor">Graduação:</label>
-                    <input type="text" id="graduacaoProfessor" name="graduacaoProfessor" th:value="${professor.graduacaoProfessor}" placeholder="Ex: Mestrado em Computação" required>
-                </div>
+                            <div class="form-group">
+                                <label for="rmProfessor">RM</label>
+                                <input type="text" id="rmProfessor" name="rmProfessor" th:value="${professor.rmProfessor}" placeholder="00000-0" data-mask="rm" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="rmProfessor">RM (Registro de Matrícula):</label>
-                    <input type="text" id="rmProfessor" name="rmProfessor" th:value="${professor.rmProfessor}" placeholder="00000-0" data-mask="rm" required>
-                </div>
+                            <div class="form-group form-span-2">
+                                <label for="graduacaoProfessor">Graduação</label>
+                                <input type="text" id="graduacaoProfessor" name="graduacaoProfessor" th:value="${professor.graduacaoProfessor}" placeholder="Ex: Mestrado em Computação" required>
+                            </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-success">💾 Salvar</button>
-                    <a href="/professor/listar" class="btn btn-secondary">❌ Cancelar</a>
-                </div>
-            </form>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success"><i class="bi bi-check2-circle"></i> Salvar professor</button>
+                                <a th:href="@{/home}" class="btn btn-secondary">↩ Voltar</a>
+                            </div>
+                        </div>
+                    </form>
 
-            <form th:unless="${professor.idProfessor == null}" th:action="@{/professor/atualizar/{id}(id=${professor.idProfessor})}" method="post">
-                <h2 class="form-title">Editar Professor</h2>
+                    <form th:unless="${professor.idProfessor == null}" th:action="@{/professor/atualizar/{id}(id=${professor.idProfessor})}" method="post">
+                        <h2 class="form-title">Edição de professor</h2>
+                        <input type="hidden" name="idProfessor" th:value="${professor.idProfessor}">
 
-                <input type="hidden" name="idProfessor" th:value="${professor.idProfessor}">
+                        <div class="form-grid">
+                            <div class="form-group form-span-2">
+                                <label for="nomeProfessorEditar">Nome completo</label>
+                                <input type="text" id="nomeProfessorEditar" name="nomeProfessor" th:value="${professor.nomeProfessor}" placeholder="Digite o nome completo" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="nomeProfessor">Nome Completo:</label>
-                    <input type="text" id="nomeProfessor" name="nomeProfessor" th:value="${professor.nomeProfessor}" placeholder="Digite o nome completo" required>
-                </div>
+                            <div class="form-group">
+                                <label for="telefoneProfessorEditar">Telefone</label>
+                                <input type="text" id="telefoneProfessorEditar" name="telefoneProfessor" th:value="${professor.telefoneProfessor}" placeholder="(00) 90000-0000" data-mask="phone" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="telefoneProfessor">Telefone:</label>
-                    <input type="text" id="telefoneProfessor" name="telefoneProfessor" th:value="${professor.telefoneProfessor}" placeholder="(00) 9 0000-0000" data-mask="phone" required>
-                </div>
+                            <div class="form-group">
+                                <label for="rmProfessorEditar">RM</label>
+                                <input type="text" id="rmProfessorEditar" name="rmProfessor" th:value="${professor.rmProfessor}" placeholder="00000-0" data-mask="rm" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="graduacaoProfessor">Graduação:</label>
-                    <input type="text" id="graduacaoProfessor" name="graduacaoProfessor" th:value="${professor.graduacaoProfessor}" placeholder="Ex: Mestrado em Computação" required>
-                </div>
+                            <div class="form-group form-span-2">
+                                <label for="graduacaoProfessorEditar">Graduação</label>
+                                <input type="text" id="graduacaoProfessorEditar" name="graduacaoProfessor" th:value="${professor.graduacaoProfessor}" placeholder="Ex: Mestrado em Computação" required>
+                            </div>
 
-                <div class="form-group">
-                    <label for="rmProfessor">RM (Registro de Matrícula):</label>
-                    <input type="text" id="rmProfessor" name="rmProfessor" th:value="${professor.rmProfessor}" placeholder="00000-0" data-mask="rm" required>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-success">💾 Atualizar</button>
-                    <a href="/professor/listar" class="btn btn-secondary">❌ Cancelar</a>
-                </div>
-            </form>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success"><i class="bi bi-check2-circle"></i> Atualizar professor</button>
+                                <a th:href="@{/home}" class="btn btn-secondary">↩ Voltar</a>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </main>
         </div>
     </div>
-    <script src="/js/mask.js"></script>
+
+    <script th:src="@{/js/mask.js}"></script>
 </body>
 </html>

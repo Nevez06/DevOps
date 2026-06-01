@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.devops.devops.entity.Usuario;
-import br.com.devops.devops.service.EmailService;
+import br.com.devops.devops.service.ResendService;
 import br.com.devops.devops.service.UsuarioService;
 
 @Controller
 public class RecuperacaoSenhaController {
 
     private final UsuarioService usuarioService;
-    private final EmailService emailService;
+    private final ResendService resendService;
 
     @Value("${app.base-url:http://localhost:8080}")
     private String baseUrl;
 
-    public RecuperacaoSenhaController(UsuarioService usuarioService, EmailService emailService) {
+    public RecuperacaoSenhaController(UsuarioService usuarioService, ResendService resendService) {
         this.usuarioService = usuarioService;
-        this.emailService = emailService;
+        this.resendService = resendService;
     }
 
     @GetMapping("/recuperar-senha")
@@ -41,12 +41,7 @@ public class RecuperacaoSenhaController {
             Usuario usuario = usuarioOpt.get();
             String token = usuarioService.criarTokenRecuperacao(usuario);
             String link = baseUrl + "/redefinir-senha?token=" + token;
-
-            if (emailService.envioConfigurado()) {
-                emailService.enviarRecuperacaoSenha(usuario.getEmailUsuario(), usuario.getNomeUsuario(), link);
-            } else {
-                redirectAttributes.addFlashAttribute("linkDev", link);
-            }
+            resendService.enviarRecuperacaoSenha(usuario.getEmailUsuario(), usuario.getNomeUsuario(), link);
         }
 
         redirectAttributes.addFlashAttribute("mensagem",

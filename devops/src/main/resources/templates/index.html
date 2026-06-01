@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema DevOps - Sistema de Gerenciamento</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-
+<head th:replace="~{fragments/layout :: head('Página inicial')}"></head>
 <body>
+    <nav th:replace="~{fragments/layout :: publicNav}"></nav>
 
-    <h1 style="text-align: center;">Bem-vindo ao Sistema DevOps</h1>
+    <main class="auth-page" style="padding-top: 0.9rem;">
+        <div class="container" style="display:grid;gap:0.9rem;grid-template-columns:1.2fr 0.8fr;">
+            <section class="panel" style="padding:1.4rem;">
+                <span class="auth-badge" style="background:#eef2ff;color:#1e40af;border-color:#dbe5ff;">Sistema DevOps</span>
+                <h1 style="margin-top:0.8rem;font-size:clamp(1.9rem,3.8vw,2.8rem);line-height:1.1;letter-spacing:-0.03em;">Gestão acadêmica com experiência de dashboard SaaS</h1>
+                <p style="margin-top:0.7rem;color:#64748b;max-width:620px;">Acesse um painel moderno para controlar alunos, cursos, professores, disciplinas e usuários com fluxos rápidos e seguros.</p>
+                <div style="display:flex;gap:0.55rem;flex-wrap:wrap;margin-top:1rem;">
+                    <a th:href="@{/login}" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i> Acessar sistema</a>
+                    <a th:href="@{/usuario/formulario}" class="btn btn-secondary"><i class="bi bi-person-plus"></i> Criar usuário</a>
+                </div>
+            </section>
 
-    <div style="text-align: center; margin-top: 2rem;">
-
-        <form action="/login" method="get" style="margin-bottom: 1rem;">
-            <button type="submit" class="btn btn-primary">
-                Acessar Sistema
-            </button>
-        </form>
-
-        <form action="/usuario/formulario" method="get">
-            <button type="submit" class="btn btn-secondary">
-                Criar Novo Usuário
-            </button>
-        </form>
-
-    </div>
-
+            <section class="panel" style="padding:1.2rem;">
+                <h2 class="panel-title" style="font-size:1.22rem;">Principais recursos</h2>
+                <ul class="activity-list" style="margin-top:0.8rem;">
+                    <li class="activity-item"><div class="activity-main"><span class="activity-dot blue"></span><div><strong>Painel central</strong><small>Visão consolidada do sistema</small></div></div></li>
+                    <li class="activity-item"><div class="activity-main"><span class="activity-dot green"></span><div><strong>Autenticação segura</strong><small>Spring Security + recuperação de senha</small></div></div></li>
+                    <li class="activity-item"><div class="activity-main"><span class="activity-dot orange"></span><div><strong>CRUD completo</strong><small>Cadastros e listagens padronizados</small></div></div></li>
+                </ul>
+            </section>
+        </div>
+    </main>
 </body>
 </html>

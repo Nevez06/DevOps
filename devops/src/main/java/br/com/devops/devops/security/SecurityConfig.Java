@@ -33,7 +33,6 @@ public class SecurityConfig {
                                                                 "/usuarios/**",
                                                                 "/recuperar-senha",
                                                                 "/redefinir-senha",
-                                                                "/home",
                                                                 "/devops/**",
                                                                 "/css/**",
                                                                 "/js/**",

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Sistema DevOps'">Sistema DevOps</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <nav th:fragment="publicNav" class="public-nav">
+        <div class="public-nav-inner">
+            <a th:href="@{/}" class="brand">
+                <span class="brand-mark">DO</span>
+                Sistema DevOps
+            </a>
+            <ul class="public-links">
+                <li><a th:href="@{/login}">Login</a></li>
+                <li><a th:href="@{/usuario/formulario}">Criar usuário</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <aside th:fragment="appSidebar(activePage)" class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-mark">DO</span>
+            <span class="brand-name">Sistema DevOps</span>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li><a class="sidebar-link" th:classappend="${activePage == 'home'} ? ' active' : ''" th:href="@{/home}"><i class="bi bi-house"></i> Home</a></li>
+        </ul>
+
+        <p class="sidebar-section-title">Cadastros</p>
+        <ul class="sidebar-menu">
+            <li><a class="sidebar-link" th:classappend="${activePage == 'aluno'} ? ' active' : ''" th:href="@{/aluno/listar}"><i class="bi bi-mortarboard"></i> Alunos</a></li>
+            <li><a class="sidebar-link" th:classappend="${activePage == 'curso'} ? ' active' : ''" th:href="@{/curso/listar}"><i class="bi bi-journal-bookmark"></i> Cursos</a></li>
+            <li><a class="sidebar-link" th:classappend="${activePage == 'professor'} ? ' active' : ''" th:href="@{/professor/listar}"><i class="bi bi-people"></i> Professores</a></li>
+            <li><a class="sidebar-link" th:classappend="${activePage == 'disciplina'} ? ' active' : ''" th:href="@{/disciplina/listar}"><i class="bi bi-journal-text"></i> Disciplinas</a></li>
+            <li><a class="sidebar-link" th:classappend="${activePage == 'usuario'} ? ' active' : ''" th:href="@{/usuario/listar}"><i class="bi bi-person-badge"></i> Usuários</a></li>
+        </ul>
+
+        <p class="sidebar-section-title">Configurações</p>
+        <ul class="sidebar-menu">
+            <li><a class="sidebar-link" th:href="@{/home}"><i class="bi bi-person-circle"></i> Meu perfil</a></li>
+            <li><a class="sidebar-link" th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-profile">
+                <span class="sidebar-avatar" th:text="${(nomeUsuario != null and !#strings.isEmpty(nomeUsuario)) ? #strings.substring(nomeUsuario,0,1) : 'U'}">U</span>
+                <div>
+                    <strong th:text="${(nomeUsuario != null and !#strings.isEmpty(nomeUsuario)) ? nomeUsuario : 'Usuário'}">Usuário</strong>
+                    <small>Administrador</small>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <header th:fragment="appTopbar(activePage)" class="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-left">
+                <span class="menu-toggle"><i class="bi bi-list"></i></span>
+                <ul class="top-menu">
+                    <li><a th:classappend="${activePage == 'home'} ? ' active' : ''" th:href="@{/home}">Home</a></li>
+                    <li><a th:classappend="${activePage == 'aluno'} ? ' active' : ''" th:href="@{/aluno/listar}">Alunos</a></li>
+                    <li><a th:classappend="${activePage == 'curso'} ? ' active' : ''" th:href="@{/curso/listar}">Cursos</a></li>
+                    <li><a th:classappend="${activePage == 'professor'} ? ' active' : ''" th:href="@{/professor/listar}">Professores</a></li>
+                    <li><a th:classappend="${activePage == 'disciplina'} ? ' active' : ''" th:href="@{/disciplina/listar}">Disciplinas</a></li>
+                    <li><a th:classappend="${activePage == 'usuario'} ? ' active' : ''" th:href="@{/usuario/listar}">Usuários</a></li>
+                </ul>
+            </div>
+
+            <div class="topbar-right">
+                <span class="icon-btn"><i class="bi bi-search"></i></span>
+                <span class="icon-btn"><i class="bi bi-bell"></i><span class="icon-badge">3</span></span>
+                <span class="icon-btn"><i class="bi bi-moon"></i></span>
+                <a class="btn btn-danger btn-logout" th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i> Sair</a>
+            </div>
+        </div>
+    </header>
+
+    <div th:fragment="alerts(mensagem, erro)">
+        <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+        <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+    </div>
+</body>
+</html>
