@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Disciplinas')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('disciplinas')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <h1>Disciplinas</h1>
+                    <p>Gerencie as disciplinas oferecidas pelos cursos.</p>
+                </div>
+                <a class="btn btn-primary" th:href="@{/disciplina/formulario}">Nova disciplina</a>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <section class="card">
+                <div class="table-wrap" th:unless="${#lists.isEmpty(disciplinas)}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Sigla</th>
+                            <th>Disciplina</th>
+                            <th>Curso</th>
+                            <th>Professor</th>
+                            <th class="num">Carga horária</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="disciplina : ${disciplinas}">
+                            <td><span class="badge badge-info" th:text="${disciplina.siglaDisciplina}">POO</span></td>
+                            <td class="cell-main" th:text="${disciplina.nomeDisciplina}">Nome</td>
+                            <td th:text="${disciplina.curso != null ? disciplina.curso.nomeCurso : '-'}">Curso</td>
+                            <td th:text="${disciplina.professor != null ? disciplina.professor.nomeProfessor : '-'}">Professor</td>
+                            <td class="num" th:text="${disciplina.cargaHorariaDisciplina} + ' h'">80 h</td>
+                            <td class="actions">
+                                <div class="actions-group">
+                                    <a class="btn btn-ghost btn-sm" th:href="@{/disciplina/editar/{id}(id=${disciplina.idDisciplina})}">Editar</a>
+                                    <form th:action="@{/disciplina/deletar/{id}(id=${disciplina.idDisciplina})}" method="post"
+                                          th:attr="data-confirm='Excluir a disciplina ' + ${disciplina.nomeDisciplina} + '?'">
+                                        <button type="submit" class="btn btn-ghost-danger btn-sm">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" th:if="${#lists.isEmpty(disciplinas)}">
+                    <strong>Nenhuma disciplina cadastrada</strong>
+                    Para criar uma disciplina é preciso ter ao menos um curso e um professor.
+                    <div><a class="btn btn-primary" th:href="@{/disciplina/formulario}">Nova disciplina</a></div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+# Artefatos gerados
+target/
+**/target/
+*.class
+*.log
+*.err
+data/
+**/data/
+
+# Credenciais e configurações privadas
+.env
+.env.*
+!.env.example
+*.local
+
+# Ferramentas e IDEs
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+*.iml
+.apt_generated
+.sts4-cache
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
