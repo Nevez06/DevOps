@@ -15,7 +15,6 @@
 
 <br/>
 
-[![Testes Java](https://github.com/Nevez06/DevOps/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Nevez06/DevOps/actions/workflows/ci.yml)
 ![Status](https://img.shields.io/badge/Status-Projeto_acadêmico-7C3AED)
 ![GitHub](https://img.shields.io/badge/Mantido_por-Nevez06-181717?logo=github)
 
@@ -50,7 +49,7 @@ O **Nevez Campus** combina gestão acadêmica com controle de produtos e pedidos
 - **Backend:** Java 17, Spring Boot 4, Spring MVC, Spring Data JPA e Spring Security
 - **Frontend:** HTML, CSS, JavaScript e Thymeleaf
 - **Banco de dados:** H2 persistente no desenvolvimento e PostgreSQL como opção
-- **Build e testes:** Maven Wrapper, JUnit e GitHub Actions
+- **Build e testes:** Maven Wrapper e JUnit
 - **Segurança:** BCrypt, CSRF nos formulários e perfis de acesso
 
 ## 🚀 Como executar
@@ -128,8 +127,8 @@ Estrutura simplificada, com o projeto dentro de **`devops/`**:
 
 ```text
 DevOps/
-├── .github/
-│   └── workflows/ci.yml     # Testes automáticos
+├── .vscode/
+│   └── settings.json        # Configurações do VS Code
 ├── devops/                  # Projeto Java completo
 │   ├── .mvn/wrapper/
 │   ├── docs/
@@ -148,7 +147,7 @@ Veja também a [documentação da arquitetura](devops/docs/ARQUITETURA.md).
 
 ## ✅ Qualidade e segurança
 
-A cada alteração na `main` e a cada Pull Request, o **GitHub Actions** executa os testes do projeto. Para testar localmente, entre na pasta `devops`:
+O projeto inclui testes automatizados com JUnit, executados localmente pelo Maven. Na raiz do repositório, entre na pasta `devops` e rode:
 
 ```powershell
 cd devops
