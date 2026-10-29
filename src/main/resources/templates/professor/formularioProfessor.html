@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${professor.idProfessor == null ? 'Novo professor' : 'Editar professor'})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('professores')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <div class="breadcrumb"><a th:href="@{/professor/listar}">Professores</a><span>/</span></div>
+                    <h1 th:text="${professor.idProfessor == null ? 'Novo professor' : 'Editar professor'}">Novo professor</h1>
+                    <p>Campos marcados com * são obrigatórios.</p>
+                </div>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <form class="card form-card" th:object="${professor}" method="post" novalidate
+                  th:action="${professor.idProfessor == null} ? @{/professor/salvar} : @{/professor/atualizar/{id}(id=${professor.idProfessor})}">
+                <div class="card-body form-grid">
+                    <div class="form-group full">
+                        <label class="required" for="nomeProfessor">Nome completo</label>
+                        <input class="form-control" type="text" th:field="*{nomeProfessor}" th:errorclass="is-invalid"
+                               maxlength="100" placeholder="Digite o nome completo" required>
+                        <small class="field-error" th:errors="*{nomeProfessor}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="rmProfessor">RM (Registro de Matrícula)</label>
+                        <input class="form-control" type="text" th:field="*{rmProfessor}" th:errorclass="is-invalid"
+                               placeholder="00000-0" data-mask="rm" inputmode="numeric" required>
+                        <small class="field-error" th:errors="*{rmProfessor}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="telefoneProfessor">Telefone</label>
+                        <input class="form-control" type="text" th:field="*{telefoneProfessor}" th:errorclass="is-invalid"
+                               placeholder="(00) 00000-0000" data-mask="phone" inputmode="numeric" required>
+                        <small class="field-error" th:errors="*{telefoneProfessor}"></small>
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="required" for="graduacaoProfessor">Graduação</label>
+                        <input class="form-control" type="text" th:field="*{graduacaoProfessor}" th:errorclass="is-invalid"
+                               maxlength="100" placeholder="Ex: Mestrado em Computação" required>
+                        <small class="field-error" th:errors="*{graduacaoProfessor}"></small>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a class="btn btn-secondary" th:href="@{/professor/listar}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar professor</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

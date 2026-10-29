@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Professores')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('professores')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <h1>Professores</h1>
+                    <p>Gerencie os dados dos professores da instituição.</p>
+                </div>
+                <a class="btn btn-primary" th:href="@{/professor/formulario}">Novo professor</a>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <section class="card">
+                <div class="table-wrap" th:unless="${#lists.isEmpty(professores)}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Professor</th>
+                            <th>RM</th>
+                            <th>Telefone</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="professor : ${professores}">
+                            <td>
+                                <div class="cell-main" th:text="${professor.nomeProfessor}">Nome</div>
+                                <div class="cell-sub" th:text="${professor.graduacaoProfessor}">Graduação</div>
+                            </td>
+                            <td th:text="${professor.rmProfessor}">00000-0</td>
+                            <td th:text="${professor.telefoneProfessor}">(00) 00000-0000</td>
+                            <td class="actions">
+                                <div class="actions-group">
+                                    <a class="btn btn-ghost btn-sm" th:href="@{/professor/editar/{id}(id=${professor.idProfessor})}">Editar</a>
+                                    <form th:action="@{/professor/deletar/{id}(id=${professor.idProfessor})}" method="post"
+                                          th:attr="data-confirm='Excluir o professor ' + ${professor.nomeProfessor} + '?'">
+                                        <button type="submit" class="btn btn-ghost-danger btn-sm">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" th:if="${#lists.isEmpty(professores)}">
+                    <strong>Nenhum professor cadastrado</strong>
+                    Cadastre professores para vinculá-los às disciplinas.
+                    <div><a class="btn btn-primary" th:href="@{/professor/formulario}">Novo professor</a></div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

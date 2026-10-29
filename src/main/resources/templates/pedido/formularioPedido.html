@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${pedido.idPedido == null ? 'Novo pedido' : 'Editar pedido'})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('pedidos')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <div class="breadcrumb"><a th:href="@{/pedido/listar}">Pedidos</a><span>/</span></div>
+                    <h1 th:text="${pedido.idPedido == null ? 'Novo pedido' : 'Editar pedido #' + pedido.idPedido}">Novo pedido</h1>
+                    <p th:text="${pedido.idPedido == null ? 'Informe os dados gerais. Os produtos são adicionados na próxima etapa.' : 'Cancelar o pedido devolve os itens ao estoque.'}">
+                        Informe os dados gerais do pedido.</p>
+                </div>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <form class="card form-card" th:object="${pedido}" method="post" novalidate
+                  th:action="${pedido.idPedido == null} ? @{/pedido/salvar} : @{/pedido/atualizar/{id}(id=${pedido.idPedido})}">
+                <div class="card-body form-grid">
+                    <div class="form-group full">
+                        <label class="required" for="alunoId">Aluno</label>
+                        <select class="form-control" id="alunoId" name="alunoId" required>
+                            <option value="">Selecione um aluno</option>
+                            <option th:each="aluno : ${alunos}" th:value="${aluno.idAluno}"
+                                    th:text="${aluno.nomeAluno + ' · RA ' + aluno.raAluno}"
+                                    th:selected="${aluno.idAluno == alunoId}">Aluno</option>
+                        </select>
+                        <small class="form-hint" th:if="${#lists.isEmpty(alunos)}">
+                            Nenhum aluno cadastrado. <a th:href="@{/aluno/formulario}">Cadastrar aluno</a>
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="dataPedido">Data</label>
+                        <input class="form-control" type="date" th:field="*{dataPedido}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="status">Status</label>
+                        <select class="form-control" th:field="*{status}" required>
+                            <option th:each="opcao : ${statusOpcoes}" th:value="${opcao}" th:text="${opcao.descricao}">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a class="btn btn-secondary" th:href="@{/pedido/listar}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary"
+                            th:text="${pedido.idPedido == null ? 'Continuar para os itens' : 'Salvar pedido'}">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

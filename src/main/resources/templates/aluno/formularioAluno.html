@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${aluno.idAluno == null ? 'Novo aluno' : 'Editar aluno'})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('alunos')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <div class="breadcrumb"><a th:href="@{/aluno/listar}">Alunos</a><span>/</span></div>
+                    <h1 th:text="${aluno.idAluno == null ? 'Novo aluno' : 'Editar aluno'}">Novo aluno</h1>
+                    <p>Campos marcados com * são obrigatórios.</p>
+                </div>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <form class="card form-card" th:action="@{/aluno/salvar}" th:object="${aluno}" method="post" novalidate>
+                <input type="hidden" th:field="*{idAluno}">
+
+                <div class="card-body form-grid">
+                    <div class="form-group full">
+                        <label class="required" for="nomeAluno">Nome completo</label>
+                        <input class="form-control" type="text" th:field="*{nomeAluno}" th:errorclass="is-invalid"
+                               maxlength="40" placeholder="Digite o nome completo" required>
+                        <small class="field-error" th:errors="*{nomeAluno}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="emailAluno">Email</label>
+                        <input class="form-control" type="email" th:field="*{emailAluno}" th:errorclass="is-invalid"
+                               maxlength="100" placeholder="exemplo@email.com" required>
+                        <small class="field-error" th:errors="*{emailAluno}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="telefoneAluno">Telefone</label>
+                        <input class="form-control" type="text" th:field="*{telefoneAluno}" th:errorclass="is-invalid"
+                               placeholder="(00) 00000-0000" data-mask="phone" inputmode="numeric" required>
+                        <small class="field-error" th:errors="*{telefoneAluno}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="cpfAluno">CPF</label>
+                        <input class="form-control" type="text" th:field="*{cpfAluno}" th:errorclass="is-invalid"
+                               placeholder="000.000.000-00" data-mask="cpf" inputmode="numeric" required>
+                        <small class="field-error" th:errors="*{cpfAluno}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="raAluno">RA (Registro Acadêmico)</label>
+                        <input class="form-control" type="text" th:field="*{raAluno}" th:errorclass="is-invalid"
+                               maxlength="20" placeholder="Digite o RA" required>
+                        <small class="field-error" th:errors="*{raAluno}"></small>
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="required" for="enderecoAluno">Endereço</label>
+                        <input class="form-control" type="text" th:field="*{enderecoAluno}" th:errorclass="is-invalid"
+                               maxlength="50" placeholder="Rua, número, bairro" required>
+                        <small class="field-error" th:errors="*{enderecoAluno}"></small>
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="required" for="cursoId">Curso</label>
+                        <select class="form-control" id="cursoId" name="cursoId" required>
+                            <option value="">Selecione um curso</option>
+                            <option th:each="curso : ${cursos}" th:value="${curso.idCurso}"
+                                    th:text="${curso.nomeCurso + ' · ' + curso.periodoCurso}"
+                                    th:selected="${curso.idCurso == cursoId}">Curso</option>
+                        </select>
+                        <small class="form-hint" th:if="${#lists.isEmpty(cursos)}">
+                            Nenhum curso cadastrado. <a th:href="@{/curso/formulario}">Cadastre um curso</a> primeiro.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a class="btn btn-secondary" th:href="@{/aluno/listar}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar aluno</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

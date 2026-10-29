@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${usuario.idUsuario == null ? 'Novo usuário' : 'Editar usuário'})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('usuarios')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <div class="breadcrumb"><a th:href="@{/usuario/listar}">Usuários</a><span>/</span></div>
+                    <h1 th:text="${usuario.idUsuario == null ? 'Novo usuário' : 'Editar usuário'}">Novo usuário</h1>
+                    <p>Campos marcados com * são obrigatórios.</p>
+                </div>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <form class="card form-card" th:action="@{/usuario/salvar}" th:object="${usuario}" method="post" novalidate>
+                <input type="hidden" th:field="*{idUsuario}">
+
+                <div class="card-body form-grid">
+                    <div class="form-group">
+                        <label class="required" for="nomeUsuario">Nome</label>
+                        <input class="form-control" type="text" th:field="*{nomeUsuario}" th:errorclass="is-invalid"
+                               maxlength="80" required>
+                        <small class="field-error" th:errors="*{nomeUsuario}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="emailUsuario">Email</label>
+                        <input class="form-control" type="email" th:field="*{emailUsuario}" th:errorclass="is-invalid"
+                               maxlength="100" required>
+                        <small class="field-error" th:errors="*{emailUsuario}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="loginUsuario">Login</label>
+                        <input class="form-control" type="text" th:field="*{loginUsuario}" th:errorclass="is-invalid"
+                               maxlength="30" autocomplete="off" required>
+                        <small class="field-error" th:errors="*{loginUsuario}"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="roleUsuario">Perfil</label>
+                        <select class="form-control" th:field="*{roleUsuario}" th:errorclass="is-invalid" required>
+                            <option value="">Selecione</option>
+                            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">ADMIN</option>
+                        </select>
+                        <small class="field-error" th:errors="*{roleUsuario}"></small>
+                    </div>
+
+                    <div class="form-group full">
+                        <label th:classappend="${usuario.idUsuario == null} ? 'required'" for="senhaUsuario">Senha</label>
+                        <input class="form-control" type="password" th:field="*{senhaUsuario}" th:errorclass="is-invalid"
+                               autocomplete="new-password" minlength="6" maxlength="100">
+                        <small class="form-hint" th:text="${usuario.idUsuario == null ? 'Mínimo de 6 caracteres.' : 'Deixe em branco para manter a senha atual.'}">
+                            Mínimo de 6 caracteres.</small>
+                        <small class="field-error" th:errors="*{senhaUsuario}"></small>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a class="btn btn-secondary" th:href="@{/usuario/listar}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar usuário</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

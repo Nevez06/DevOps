@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Usuários')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('usuarios')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <h1>Usuários</h1>
+                    <p>Gerencie quem tem acesso ao sistema.</p>
+                </div>
+                <a class="btn btn-primary" th:href="@{/usuario/formulario}">Novo usuário</a>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <section class="card">
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>Login</th>
+                            <th>Perfil</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td>
+                                <div class="cell-main" th:text="${usuario.nomeUsuario}">Nome</div>
+                                <div class="cell-sub" th:text="${usuario.emailUsuario}">email</div>
+                            </td>
+                            <td th:text="${usuario.loginUsuario}">login</td>
+                            <td>
+                                <span class="badge" th:classappend="${usuario.roleUsuario == 'ADMIN'} ? 'badge-primary'"
+                                      th:text="${usuario.roleUsuario}">ADMIN</span>
+                            </td>
+                            <td class="actions">
+                                <div class="actions-group">
+                                    <a class="btn btn-ghost btn-sm" th:href="@{/usuario/editar/{id}(id=${usuario.idUsuario})}">Editar</a>
+                                    <form th:unless="${usuarioLogado != null and usuarioLogado.idUsuario == usuario.idUsuario}"
+                                          th:action="@{/usuario/deletar/{id}(id=${usuario.idUsuario})}" method="post"
+                                          th:attr="data-confirm='Excluir o usuário ' + ${usuario.loginUsuario} + '?'">
+                                        <button type="submit" class="btn btn-ghost-danger btn-sm">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

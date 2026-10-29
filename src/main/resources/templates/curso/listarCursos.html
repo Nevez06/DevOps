@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Cursos')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('cursos')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <h1>Cursos</h1>
+                    <p>Gerencie os cursos oferecidos pela instituição.</p>
+                </div>
+                <a class="btn btn-primary" th:href="@{/curso/formulario}">Novo curso</a>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <section class="card">
+                <div class="table-wrap" th:unless="${#lists.isEmpty(cursos)}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th>Período</th>
+                            <th class="num">Carga horária</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="curso : ${cursos}">
+                            <td class="cell-main" th:text="${curso.nomeCurso}">Nome</td>
+                            <td><span class="badge" th:text="${curso.periodoCurso}">Noturno</span></td>
+                            <td class="num" th:text="${curso.cargahorariaCurso} + ' h'">2400 h</td>
+                            <td class="actions">
+                                <div class="actions-group">
+                                    <a class="btn btn-ghost btn-sm" th:href="@{/curso/editar/{id}(id=${curso.idCurso})}">Editar</a>
+                                    <form th:action="@{/curso/deletar/{id}(id=${curso.idCurso})}" method="post"
+                                          th:attr="data-confirm='Excluir o curso ' + ${curso.nomeCurso} + '?'">
+                                        <button type="submit" class="btn btn-ghost-danger btn-sm">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" th:if="${#lists.isEmpty(cursos)}">
+                    <strong>Nenhum curso cadastrado</strong>
+                    Cadastre um curso para poder matricular alunos e criar disciplinas.
+                    <div><a class="btn btn-primary" th:href="@{/curso/formulario}">Novo curso</a></div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

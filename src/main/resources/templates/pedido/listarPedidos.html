@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Pedidos')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{fragments/layout :: sidebar('pedidos')}"></aside>
+
+    <main class="main">
+        <div class="content">
+            <div class="page-head">
+                <div>
+                    <h1>Pedidos</h1>
+                    <p>Acompanhe os pedidos feitos pelos alunos.</p>
+                </div>
+                <a class="btn btn-primary" th:href="@{/pedido/formulario}">Novo pedido</a>
+            </div>
+
+            <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+            <section class="card">
+                <div class="table-wrap" th:unless="${#lists.isEmpty(pedidos)}">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Aluno</th>
+                            <th>Status</th>
+                            <th class="num">Itens</th>
+                            <th class="num">Total</th>
+                            <th class="actions">Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="pedido : ${pedidos}">
+                            <td>
+                                <a class="cell-main" th:href="@{/item-pedido/listar/{id}(id=${pedido.idPedido})}"
+                                   th:text="'#' + ${pedido.idPedido}">#1</a>
+                                <div class="cell-sub" th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy')}">01/01/2026</div>
+                            </td>
+                            <td>
+                                <div th:text="${pedido.aluno != null ? pedido.aluno.nomeAluno : pedido.nomeCliente}">Aluno</div>
+                                <div class="cell-sub" th:if="${pedido.aluno != null}" th:text="'RA ' + ${pedido.aluno.raAluno}">RA</div>
+                            </td>
+                            <td><span th:replace="~{fragments/layout :: statusPedido(${pedido.status})}"></span></td>
+                            <td class="num" th:text="${pedido.quantidadeItens}">0</td>
+                            <td class="num cell-main" th:text="${#numbers.formatCurrency(pedido.valorTotal)}">R$ 0,00</td>
+                            <td class="actions">
+                                <div class="actions-group">
+                                    <a class="btn btn-secondary btn-sm" th:href="@{/item-pedido/listar/{id}(id=${pedido.idPedido})}">Itens</a>
+                                    <a class="btn btn-ghost btn-sm" th:href="@{/pedido/editar/{id}(id=${pedido.idPedido})}">Editar</a>
+                                    <form th:action="@{/pedido/deletar/{id}(id=${pedido.idPedido})}" method="post"
+                                          th:attr="data-confirm='Excluir o pedido #' + ${pedido.idPedido} + '? Os itens voltarão ao estoque.'">
+                                        <button type="submit" class="btn btn-ghost-danger btn-sm">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" th:if="${#lists.isEmpty(pedidos)}">
+                    <strong>Nenhum pedido cadastrado</strong>
+                    Crie um pedido para um aluno e depois adicione os produtos.
+                    <div><a class="btn btn-primary" th:href="@{/pedido/formulario}">Novo pedido</a></div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
