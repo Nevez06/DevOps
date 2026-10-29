@@ -1,0 +1,41 @@
+name: Limpeza única de branches
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.repository == 'Nevez06/DevOps' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Excluir somente três branches antigas, conferindo seus commits
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branches = [
+              { name: 'backup/antes-da-reestruturacao-2026-10-29', sha: '851456bac6c3dd404295efedeccb210b42464f4c' },
+              { name: 'feature/nevez-campus-reestruturacao', sha: '109a4f25e30f483dc7ede23fd610ec2be75c50b3' },
+              { name: 'modernize/java-20260531151737', sha: 'd400f630b43c988b310eb67dc4081b2d9170c473' }
+            ];
+            for (const branch of branches) {
+              const ref = `heads/${branch.name}`;
+              const { data } = await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref
+              });
+              if (data.object.sha !== branch.sha) {
+                throw new Error(`Branch modificada: ${branch.name}. Interrompendo sem apagar.`);
+              }
+            }
+            for (const branch of branches) {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${branch.name}`
+              });
+              core.info(`Removida branch: ${branch.name}`);
+            }
