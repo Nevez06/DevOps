@@ -62,6 +62,7 @@ O **Nevez Campus** combina gestão acadêmica com controle de produtos e pedidos
 ```bash
 git clone https://github.com/Nevez06/DevOps.git
 cd DevOps
+cd devops
 ```
 
 **2. Configure um usuário administrador (PowerShell no Windows)**
@@ -79,7 +80,7 @@ $env:APP_ADMIN_PASSWORD="escolha-uma-senha-forte"
 
 **Acesse:** [http://localhost:8080/login](http://localhost:8080/login)
 
-Use o login `admin` e a senha configurada em `APP_ADMIN_PASSWORD`. O banco H2 será criado localmente na pasta `data/`.
+Use o login `admin` e a senha configurada em `APP_ADMIN_PASSWORD`. O banco H2 será criado localmente na pasta `devops/data/` (relativa à raiz do repositório).
 
 <details>
 <summary><b>🐧 Linux ou macOS</b></summary>
@@ -123,37 +124,34 @@ flowchart TD
     B --> G["Carrinho por sessão"]
 ```
 
-Estrutura simplificada:
+Estrutura simplificada, com o projeto dentro de **`devops/`**:
 
 ```text
 DevOps/
-├── .github/workflows/      # Integração contínua
-├── docs/                   # Documentação complementar
-├── src/
-│   ├── main/
-│   │   ├── java/br/com/nevez/devops/
-│   │   │   ├── config/
-│   │   │   ├── controller/
-│   │   │   ├── entity/
-│   │   │   ├── marketplace/
-│   │   │   ├── repository/
-│   │   │   ├── security/
-│   │   │   └── service/
-│   │   └── resources/
-│   │       ├── static/
-│   │       └── templates/
-│   └── test/
-├── pom.xml
-└── mvnw / mvnw.cmd
+├── .github/
+│   └── workflows/ci.yml     # Testes automáticos
+├── devops/                  # Projeto Java completo
+│   ├── .mvn/wrapper/
+│   ├── docs/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/br/com/nevez/devops/
+│   │   │   └── resources/
+│   │   └── test/
+│   ├── pom.xml
+│   ├── mvnw
+│   └── mvnw.cmd
+└── README.md
 ```
 
-Veja também a [documentação da arquitetura](docs/ARQUITETURA.md).
+Veja também a [documentação da arquitetura](devops/docs/ARQUITETURA.md).
 
 ## ✅ Qualidade e segurança
 
-A cada alteração na `main` e a cada Pull Request, o **GitHub Actions** executa os testes do projeto. Para testar localmente:
+A cada alteração na `main` e a cada Pull Request, o **GitHub Actions** executa os testes do projeto. Para testar localmente, entre na pasta `devops`:
 
 ```powershell
+cd devops
 .\mvnw.cmd test
 ```
 

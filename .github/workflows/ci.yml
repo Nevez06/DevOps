@@ -20,7 +20,9 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
+          cache-dependency-path: devops/pom.xml
       - name: Executar testes
+        working-directory: devops
         run: |
           chmod +x ./mvnw
           ./mvnw -B test
