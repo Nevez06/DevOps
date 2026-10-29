@@ -1,63 +1,99 @@
-# Nevez Campus
+<div align="center">
 
-Plataforma acadêmica com **loja integrada**, em Java 17, Spring Boot 4, Thymeleaf, Spring Data JPA e Spring Security. O projeto reúne cadastro acadêmico, estoque, produtos, pedidos e marketplace em uma única aplicação web.
+# 🎓 Nevez Campus
 
-## Recursos
+### Gestão acadêmica e marketplace em um só lugar
 
-- Dashboard administrativo com indicadores, pedidos recentes e produtos em estoque baixo.
-- Cadastro e gerenciamento de alunos, professores, cursos, disciplinas e usuários.
-- Catálogo de produtos e carrinho de compras por sessão, com validação de estoque.
-- Pedidos com itens, total e estados controlados.
-- Login com BCrypt, permissões por perfil e proteção CSRF.
-- Recuperação de senha por email com token de expiração em 30 minutos.
-- Interface customizada e responsiva, com cores violeta e navegação por teclado.
-- Testes de integração e CI por GitHub Actions.
+**Uma aplicação web completa para organizar pessoas, cursos, produtos e pedidos — com segurança e uma interface moderna.**
 
-## Estrutura
+<br/>
 
-```text
-.mvn/                          Maven Wrapper
-.github/workflows/             Testes automáticos
-src/main/java/br/com/nevez/devops/
-  config/                      Configuração e bootstrap opcional
-  controller/                  Rotas MVC
-  entity/                      Entidades JPA
-  exception/                   Regras de erro
-  marketplace/                 Carrinho por sessão
-  repository/                  Persistência com Spring Data
-  security/                    Controle de acesso
-  service/                     Regras de negócio
-src/main/resources/
-  static/                      CSS e JavaScript
-  templates/                   Páginas Thymeleaf
-src/test/                      Testes e dados de teste isolados
-```
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Templates-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Opcional-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 
-## Execução rápida (Windows)
+<br/>
 
-Instale **JDK 17 ou superior**. O Maven Wrapper já faz parte do repositório.
+[![Testes Java](https://github.com/Nevez06/DevOps/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Nevez06/DevOps/actions/workflows/ci.yml)
+![Status](https://img.shields.io/badge/Status-Projeto_acadêmico-7C3AED)
+![GitHub](https://img.shields.io/badge/Mantido_por-Nevez06-181717?logo=github)
 
-```powershell
+<br/>
+
+[Funcionalidades](#-funcionalidades) • [Tecnologias](#-tecnologias) • [Como executar](#-como-executar) • [Arquitetura](#-arquitetura) • [Créditos](#-créditos)
+
+</div>
+
+---
+
+## ✨ Visão geral
+
+O **Nevez Campus** combina gestão acadêmica com controle de produtos e pedidos. O painel de administração permite acompanhar informações da instituição, enquanto a loja oferece catálogo e carrinho para usuários autenticados.
+
+> **Projeto de estudo e desenvolvimento.** A aplicação é executada localmente; o repositório não representa um serviço público hospedado.
+
+## 🧩 Funcionalidades
+
+| Módulo | O que é possível fazer |
+| :--- | :--- |
+| 🎯 **Dashboard** | Visualizar indicadores, últimos pedidos e produtos com estoque baixo |
+| 🎓 **Acadêmico** | Gerenciar alunos, professores, cursos e disciplinas |
+| 👥 **Usuários** | Administrar contas e permissões por perfil |
+| 🛍️ **Marketplace** | Navegar pelos produtos, pesquisar e usar um carrinho individual por sessão |
+| 📦 **Estoque** | Cadastrar produtos, controlar quantidades e validar disponibilidade |
+| 🧾 **Pedidos** | Registrar itens, calcular totais e acompanhar os estados de cada pedido |
+| 🔐 **Acesso** | Login, autenticação, autorização e recuperação de senha por email |
+
+## 🛠️ Tecnologias
+
+- **Backend:** Java 17, Spring Boot 4, Spring MVC, Spring Data JPA e Spring Security
+- **Frontend:** HTML, CSS, JavaScript e Thymeleaf
+- **Banco de dados:** H2 persistente no desenvolvimento e PostgreSQL como opção
+- **Build e testes:** Maven Wrapper, JUnit e GitHub Actions
+- **Segurança:** BCrypt, CSRF nos formulários e perfis de acesso
+
+## 🚀 Como executar
+
+**Requisitos:** JDK 17 ou superior. O Maven Wrapper está incluído no projeto; não é necessário instalar o Maven separadamente.
+
+**1. Clone o repositório**
+
+```bash
 git clone https://github.com/Nevez06/DevOps.git
 cd DevOps
+```
+
+**2. Configure um usuário administrador (PowerShell no Windows)**
+
+```powershell
 $env:APP_BOOTSTRAP_ENABLED="true"
 $env:APP_ADMIN_PASSWORD="escolha-uma-senha-forte"
+```
+
+**3. Inicie a aplicação**
+
+```powershell
 .\mvnw.cmd spring-boot:run
 ```
 
-Abra **http://localhost:8080/login**. O usuário inicial é `admin` e a senha é a definida por `APP_ADMIN_PASSWORD`.
+**Acesse:** [http://localhost:8080/login](http://localhost:8080/login)
 
-O banco padrão é **H2 local**, salvo em `data/`. As contas só são inicializadas no primeiro início de um banco vazio, quando `APP_BOOTSTRAP_ENABLED=true`. **Desative essa opção após a inicialização**, especialmente fora do ambiente local. As senhas não estão embutidas no aplicativo.
+Use o login `admin` e a senha configurada em `APP_ADMIN_PASSWORD`. O banco H2 será criado localmente na pasta `data/`.
 
-Opcionalmente, configure `APP_PROFESSOR_PASSWORD` e `APP_SECRETARIA_PASSWORD` no primeiro início para criar usuários fictícios com perfis adicionais.
-
-### Linux / macOS
+<details>
+<summary><b>🐧 Linux ou macOS</b></summary>
 
 ```bash
 APP_BOOTSTRAP_ENABLED=true APP_ADMIN_PASSWORD='escolha-uma-senha-forte' ./mvnw spring-boot:run
 ```
 
-## PostgreSQL (opcional)
+</details>
+
+<details>
+<summary><b>🐘 Usar PostgreSQL</b></summary>
+
+Crie um banco PostgreSQL e informe as variáveis de conexão:
 
 ```powershell
 $env:DB_URL="jdbc:postgresql://localhost:5432/nevez_campus"
@@ -66,29 +102,81 @@ $env:DB_PASSWORD="senha-local"
 .\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=postgres"
 ```
 
-A alteração de esquema está configurada com `DDL_AUTO=update` para desenvolvimento. Para produção, implemente migrações versionadas e revise as demais configurações de segurança antes de publicar.
+</details>
 
-## Email e recuperação de senha
+<details>
+<summary><b>✉️ Configurar recuperação de senha</b></summary>
 
-Defina `MAIL_USERNAME`, `MAIL_PASSWORD` e `APP_BASE_URL` no ambiente. O sistema utiliza SMTP (Gmail, porta 587). Para Gmail, utilize uma senha de aplicativo, nunca a senha principal da conta.
+Defina as variáveis `MAIL_USERNAME`, `MAIL_PASSWORD` e `APP_BASE_URL`. Para Gmail, configure uma **senha de aplicativo**. Os links de recuperação expiram em **30 minutos** e não são exibidos nos logs.
 
-Sem SMTP configurado, o envio não ocorre. Os tokens de redefinição **não são exibidos no console**. O link enviado expira em 30 minutos.
+</details>
 
-## Testes
+## 🏗️ Arquitetura
+
+```mermaid
+flowchart TD
+    A["Interface Web<br/>Thymeleaf · HTML · CSS · JS"] --> B["Controllers<br/>Spring MVC"]
+    B --> C["Services<br/>Regras de negócio"]
+    C --> D["Repositories<br/>Spring Data JPA"]
+    D --> E[("H2 / PostgreSQL")]
+    B --> F["Spring Security<br/>Autenticação e autorização"]
+    B --> G["Carrinho por sessão"]
+```
+
+Estrutura simplificada:
+
+```text
+DevOps/
+├── .github/workflows/      # Integração contínua
+├── docs/                   # Documentação complementar
+├── src/
+│   ├── main/
+│   │   ├── java/br/com/nevez/devops/
+│   │   │   ├── config/
+│   │   │   ├── controller/
+│   │   │   ├── entity/
+│   │   │   ├── marketplace/
+│   │   │   ├── repository/
+│   │   │   ├── security/
+│   │   │   └── service/
+│   │   └── resources/
+│   │       ├── static/
+│   │       └── templates/
+│   └── test/
+├── pom.xml
+└── mvnw / mvnw.cmd
+```
+
+Veja também a [documentação da arquitetura](docs/ARQUITETURA.md).
+
+## ✅ Qualidade e segurança
+
+A cada alteração na `main` e a cada Pull Request, o **GitHub Actions** executa os testes do projeto. Para testar localmente:
 
 ```powershell
 .\mvnw.cmd test
 ```
 
-As contas e senhas previsíveis existentes em `src/test/resources/application.properties` são **apenas para testes automatizados**; não são usadas pelo aplicativo normal. O GitHub Actions executa a suíte em alterações na branch principal e pull requests.
+As contas de demonstração são **desativadas por padrão** e só são criadas em um banco vazio quando `APP_BOOTSTRAP_ENABLED=true`. Senhas devem ser configuradas no ambiente, não no código. O arquivo `src/test/resources/application.properties` contém dados exclusivamente para testes.
 
-## Segurança e dados
+**Importante:** o projeto precisa de avaliação adicional de segurança, migrações versionadas de banco de dados e preparação de infraestrutura antes de ser colocado em produção.
 
-- Não envie senhas ou arquivos `.env` para o Git.
-- Evite ativar o bootstrap fora do ambiente de desenvolvimento.
-- O banco H2 persistido e logs são ignorados pelo Git.
-- Revise configurações de SMTP, banco e autorização antes de hospedar a aplicação publicamente.
+## 👨‍💻 Desenvolvimento
 
-## Crédito e evolução
+Repositório mantido em **[Nevez06](https://github.com/Nevez06)**. Esta versão apresenta organização de pacotes, interface personalizada, atualizações de configuração e infraestrutura de testes.
 
-A base funcional foi **adaptada de [Adryan-Francisco/DevOps](https://github.com/Adryan-Francisco/DevOps)**. A versão Nevez Campus reorganiza a estrutura do repositório, personaliza a interface, altera configurações de inicialização e recuperação de senha, e acrescenta documentação e integração contínua. Os autores originais mantêm a autoria das contribuições aproveitadas. O projeto de referência não apresentava uma licença explícita na consulta realizada: confirme a permissão de redistribuição do código com o autor.
+### 🤝 Créditos
+
+Este projeto foi desenvolvido a partir de uma base do repositório **[Adryan-Francisco/DevOps](https://github.com/Adryan-Francisco/DevOps)**, com adaptações e melhorias posteriores. A autoria das contribuições originais é preservada.
+
+> O repositório de referência não apresentava licença explícita na consulta realizada. Para redistribuição e outros usos além dos permitidos por lei, confirme a autorização com o autor.
+
+---
+
+<div align="center">
+
+**Feito com Java, Spring Boot e muita prática.** ☕
+
+[↑ Voltar ao topo](#-nevez-campus)
+
+</div>
